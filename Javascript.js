@@ -110,44 +110,104 @@ let operator;
 let indexTwo
 
 function addZero(){
+if (operator !== undefined && resultSpan.textContent.indexOf(`${operator}`)== -1) {
+    operator=undefined
+    resultSpan.textContent='0'
+}
+else {
 resultSpan.textContent+=`0`
 displayValue=resultSpan.textContent;
 }
+}
 function addOne(){
+if (operator !== undefined && resultSpan.textContent.indexOf(`${operator}`)== -1) {
+    operator=undefined
+    resultSpan.textContent='1'
+}
+else{
 resultSpan.textContent+=`1`
 displayValue=resultSpan.textContent;
 }
+}
 function addTwo(){
-resultSpan.textContent+=`2`
-displayValue=resultSpan.textContent;
+    if (operator !== undefined && resultSpan.textContent.indexOf(`${operator}`)== -1) {
+        operator=undefined
+        resultSpan.textContent='2'
+    }
+    else{
+    resultSpan.textContent+=`2`
+    displayValue=resultSpan.textContent;
+    }
 }
 function addThree(){
-resultSpan.textContent+=`3`
-displayValue=resultSpan.textContent;
+    if (operator !== undefined && resultSpan.textContent.indexOf(`${operator}`)== -1) {
+        operator=undefined
+        resultSpan.textContent='3'
+    }
+    else{
+    resultSpan.textContent+=`3`
+    displayValue=resultSpan.textContent;
+    }
 }
 function addFour(){
-resultSpan.textContent+=`4`
-displayValue=resultSpan.textContent;
+    if (operator !== undefined && resultSpan.textContent.indexOf(`${operator}`)== -1) {
+        operator=undefined
+        resultSpan.textContent='4'
+    }
+    else{
+    resultSpan.textContent+=`4`
+    displayValue=resultSpan.textContent;
+    }
 }
 function addFive(){
-resultSpan.textContent+=`5`
-displayValue=resultSpan.textContent;
+    if (operator !== undefined && resultSpan.textContent.indexOf(`${operator}`)== -1) {
+        operator=undefined
+        resultSpan.textContent='5'
+    }
+    else{
+    resultSpan.textContent+=`5`
+    displayValue=resultSpan.textContent;
+    }
 }
 function addSix(){
-resultSpan.textContent+=`6`
-displayValue=resultSpan.textContent;
+    if (operator !== undefined && resultSpan.textContent.indexOf(`${operator}`)== -1) {
+        operator=undefined
+        resultSpan.textContent='6'
+    }
+    else{
+    resultSpan.textContent+=`6`
+    displayValue=resultSpan.textContent;
+    }
 }
 function addSeven(){
-resultSpan.textContent+=`7`
-displayValue=resultSpan.textContent;
+    if (operator !== undefined && resultSpan.textContent.indexOf(`${operator}`)== -1) {
+        operator=undefined
+        resultSpan.textContent='7'
+    }
+    else{
+    resultSpan.textContent+=`7`
+    displayValue=resultSpan.textContent;
+    }
 }
 function addEight(){
-resultSpan.textContent+=`8`
-displayValue=resultSpan.textContent;
+    if (operator !== undefined && resultSpan.textContent.indexOf(`${operator}`)== -1) {
+        operator=undefined
+        resultSpan.textContent='8'
+    }
+    else{
+    resultSpan.textContent+=`8`
+    displayValue=resultSpan.textContent;
+    }
 }
 function addNine(){
-resultSpan.textContent+=`9`
-displayValue=resultSpan.textContent;
+    if (operator !== undefined && resultSpan.textContent.indexOf(`${operator}`)== -1) {
+        operator=undefined
+        resultSpan.textContent='9'
+    }
+    else{
+    resultSpan.textContent+=`9`
+    displayValue=resultSpan.textContent;
+    }
 }
 function addOperator(){
     indexTwo= resultSpan.textContent.indexOf(`${operator}`)
