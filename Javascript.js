@@ -1,353 +1,126 @@
-function add(a,b) {
-    return a+b
-}
-
-function subtract(a,b) {
-    return a-b
-}
-
-function multiply(a,b) {
-    return a*b
-}
-
-function divide(a,b) {
-    return a/b
-}
-
-function operate(a,b,operator) {
-    if (operator == '+') {
-        const result =add (a,b);
-        return result
+class Calculator {
+    constructor(previousOperandTextElement, currentOperandTextElement) {
+      this.previousOperandTextElement = previousOperandTextElement
+      this.currentOperandTextElement = currentOperandTextElement
+      this.clear()
     }
-    if (operator == '-') {
-        const result =subtract (a,b);
-        return result
+  
+    clear() {
+      this.currentOperand = ''
+      this.previousOperand = ''
+      this.operation = undefined
     }
-    if (operator == '×') {
-        const result =multiply (a,b);
-        return result
+  
+    delete() {
+      this.currentOperand = this.currentOperand.toString().slice(0, -1)
     }
-    if (operator == '÷') {
-        const result =divide (a,b);
-        return result
+  
+    appendNumber(number) {
+      if (number === '.' && this.currentOperand.includes('.')) return
+      this.currentOperand = this.currentOperand.toString() + number.toString()
     }
-}
-let zeroBtn=document.querySelector('.zero')
-let oneBtn=document.querySelector('.one')
-let twoBtn=document.querySelector('.two')
-let threeBtn=document.querySelector('.three')
-let fourBtn=document.querySelector('.four')
-let fiveBtn=document.querySelector('.five')
-let sixBtn=document.querySelector('.six')
-let sevenBtn=document.querySelector('.seven')
-let eightBtn=document.querySelector('.eight')
-let nineBtn=document.querySelector('.nine')
-let plusBtn=document.querySelector('.plus')
-let minusBtn=document.querySelector('.minus')
-let multiplyBtn=document.querySelector('.multiply')
-let divideBtn=document.querySelector('.divide')
-let equalBtn=document.querySelector('.equal')
-let clearBtn= document.querySelector('.clear')
-let deleteBtn= document.querySelector('.delete')
-let floatBtn= document.querySelector('.float')
-
-
-
-
-zeroBtn.addEventListener('click',addZero)
-oneBtn.addEventListener('click',addOne)
-twoBtn.addEventListener('click',addTwo)
-threeBtn.addEventListener('click',addThree)
-fourBtn.addEventListener('click',addFour)
-fiveBtn.addEventListener('click',addFive)
-sixBtn.addEventListener('click',addSix)
-sevenBtn.addEventListener('click',addSeven)
-eightBtn.addEventListener('click',addEight)
-nineBtn.addEventListener('click',addNine)
-plusBtn.addEventListener('click',addOperator)
-minusBtn.addEventListener('click',minusOperator)
-multiplyBtn.addEventListener('click',multiplyOperator)
-divideBtn.addEventListener('click',divideOperator)
-equalBtn.addEventListener('click',calculate)
-clearBtn.addEventListener('click',clear)
-deleteBtn.addEventListener('click',Delete)
-floatBtn.addEventListener('click',addFloat)
-
-
-function clear() {
-    resultSpan.textContent='';
-}
-
-function Delete() {
-    displayValue=resultSpan.textContent;
-    let arr=displayValue.split('')
-    arr.pop()
-    let newDisplay=arr.join('')
-    resultSpan.textContent=newDisplay;
-}
-
-function addFloat() {
-    let display= resultSpan.textContent;
-    let arr=display.split('');
-    let newarr= arr.filter(elment=>{ if (elment=='.') {return true}})
-    let n=newarr.length
-    let n1=display.indexOf(`${operator}`)
-    let secondNum= display.slice(n1+2,display.length);
-    if (display=='') {
-        return 0
+  
+    chooseOperation(operation) {
+      if (this.currentOperand === '') return
+      if (this.previousOperand !== '') {
+        this.compute()
+      }
+      this.operation = operation
+      this.previousOperand = this.currentOperand
+      this.currentOperand = ''
     }
-    else if (n==0){
-            resultSpan.textContent+='.' 
+  
+    compute() {
+      let computation
+      const prev = parseFloat(this.previousOperand)
+      const current = parseFloat(this.currentOperand)
+      if (isNaN(prev) || isNaN(current)) return
+      switch (this.operation) {
+        case '+':
+          computation = prev + current
+          break
+        case '-':
+          computation = prev - current
+          break
+        case '×':
+          computation = prev * current
+          break
+        case '÷':
+          computation = prev / current
+          break
+        default:
+          return
+      }
+      this.currentOperand = computation
+      this.operation = undefined
+      this.previousOperand = ''
     }
-    else if(secondNum.indexOf('.')==-1 && secondNum!== '' && operator!==undefined && n1 !== -1) {
-        resultSpan.textContent+='.' 
+  
+    getDisplayNumber(number) {
+      const stringNumber = number.toString()
+      const integerDigits = parseFloat(stringNumber.split('.')[0])
+      const decimalDigits = stringNumber.split('.')[1]
+      let integerDisplay
+      if (isNaN(integerDigits)) {
+        integerDisplay = ''
+      } else {
+        integerDisplay = integerDigits.toLocaleString('en', { maximumFractionDigits: 0 })
+      }
+      if (decimalDigits != null) {
+        return `${integerDisplay}.${decimalDigits}`
+      } else {
+        return integerDisplay
+      }
     }
-}
-
-let resultSpan= document.querySelector('.result')
-let displayValue;
-let operator;
-let indexTwo
-
-function addZero(){
-if (operator !== undefined && resultSpan.textContent.indexOf(`${operator}`)== -1) {
-    operator=undefined
-    resultSpan.textContent='0'
-}
-else {
-resultSpan.textContent+=`0`
-displayValue=resultSpan.textContent;
-}
-}
-function addOne(){
-if (operator !== undefined && resultSpan.textContent.indexOf(`${operator}`)== -1) {
-    operator=undefined
-    resultSpan.textContent='1'
-}
-else{
-resultSpan.textContent+=`1`
-displayValue=resultSpan.textContent;
-}
-}
-function addTwo(){
-    if (operator !== undefined && resultSpan.textContent.indexOf(`${operator}`)== -1) {
-        operator=undefined
-        resultSpan.textContent='2'
+  
+    updateDisplay() {
+      this.currentOperandTextElement.innerText =
+        this.getDisplayNumber(this.currentOperand)
+      if (this.operation != null) {
+        this.previousOperandTextElement.innerText =
+          `${this.getDisplayNumber(this.previousOperand)} ${this.operation}`
+      } else {
+        this.previousOperandTextElement.innerText = ''
+      }
     }
-    else{
-    resultSpan.textContent+=`2`
-    displayValue=resultSpan.textContent;
-    }
-}
-function addThree(){
-    if (operator !== undefined && resultSpan.textContent.indexOf(`${operator}`)== -1) {
-        operator=undefined
-        resultSpan.textContent='3'
-    }
-    else{
-    resultSpan.textContent+=`3`
-    displayValue=resultSpan.textContent;
-    }
-}
-function addFour(){
-    if (operator !== undefined && resultSpan.textContent.indexOf(`${operator}`)== -1) {
-        operator=undefined
-        resultSpan.textContent='4'
-    }
-    else{
-    resultSpan.textContent+=`4`
-    displayValue=resultSpan.textContent;
-    }
-}
-function addFive(){
-    if (operator !== undefined && resultSpan.textContent.indexOf(`${operator}`)== -1) {
-        operator=undefined
-        resultSpan.textContent='5'
-    }
-    else{
-    resultSpan.textContent+=`5`
-    displayValue=resultSpan.textContent;
-    }
-}
-function addSix(){
-    if (operator !== undefined && resultSpan.textContent.indexOf(`${operator}`)== -1) {
-        operator=undefined
-        resultSpan.textContent='6'
-    }
-    else{
-    resultSpan.textContent+=`6`
-    displayValue=resultSpan.textContent;
-    }
-}
-function addSeven(){
-    if (operator !== undefined && resultSpan.textContent.indexOf(`${operator}`)== -1) {
-        operator=undefined
-        resultSpan.textContent='7'
-    }
-    else{
-    resultSpan.textContent+=`7`
-    displayValue=resultSpan.textContent;
-    }
-}
-function addEight(){
-    if (operator !== undefined && resultSpan.textContent.indexOf(`${operator}`)== -1) {
-        operator=undefined
-        resultSpan.textContent='8'
-    }
-    else{
-    resultSpan.textContent+=`8`
-    displayValue=resultSpan.textContent;
-    }
-}
-function addNine(){
-    if (operator !== undefined && resultSpan.textContent.indexOf(`${operator}`)== -1) {
-        operator=undefined
-        resultSpan.textContent='9'
-    }
-    else{
-    resultSpan.textContent+=`9`
-    displayValue=resultSpan.textContent;
-    }
-}
-function addOperator(){
-    indexTwo= resultSpan.textContent.indexOf(`${operator}`)
-    if (resultSpan.textContent=='') {
-        return 0
-    }
-    else if (operator==undefined|| resultSpan.textContent.indexOf(`${operator}`)==-1){
-        resultSpan.textContent+=` + `
-        operator='+';
-        indexTwo= resultSpan.textContent.indexOf('+')     
-    }
-    else if(resultSpan.textContent[indexTwo+2]!== undefined){
-        let result=calculate();
-        operator='+'
-        resultSpan.textContent=`${result} + `
-    }
-    else {
-    displayValue=resultSpan.textContent
-    let newDisplay=displayValue.replace(` ${operator} `, ' + ');
-    resultSpan.textContent=newDisplay;
-    operator='+';
-    }
-}
-
-function minusOperator(){
-    indexTwo= resultSpan.textContent.indexOf(`${operator}`)
-    if (resultSpan.textContent=='') {
-        return 0
-    }
-    else if (operator==undefined || resultSpan.textContent.indexOf(`${operator}`)==-1){
-            resultSpan.textContent+=` - `
-            operator='-';
-            indexTwo= resultSpan.textContent.indexOf('-')            
-    }
-    else if(resultSpan.textContent[indexTwo+2]!== undefined){
-        let result=calculate();
-        operator='-'
-        resultSpan.textContent=`${result} - `
-    }
-    else {
-        displayValue=resultSpan.textContent;
-        let newDisplay=displayValue.replace(` ${operator} ` , ' - ')
-        resultSpan.textContent=newDisplay;
-        operator='-'
-    }
-}
-function multiplyOperator(){
-    indexTwo= resultSpan.textContent.indexOf(`${operator}`)
-    if (resultSpan.textContent=='') {
-        return 0
-    }
-    else if (operator==undefined|| resultSpan.textContent.indexOf(`${operator}`)==-1){
-        resultSpan.textContent+=` × `
-        operator='×';
-        
-    }
-    else if(resultSpan.textContent[indexTwo+2]!== undefined){
-        let result=calculate();
-        operator='×'
-        resultSpan.textContent=`${result} × `
-    }
-    else {
-    displayValue=resultSpan.textContent;
-    let newDisplay=displayValue.replace(` ${operator} ` , ' × ')
-    resultSpan.textContent=newDisplay;
-    operator='×'
-    }
-}
-function divideOperator(){
-    indexTwo= resultSpan.textContent.indexOf(`${operator}`)
-    if (resultSpan.textContent=='') {
-        return 0
-    }
-    else if (operator==undefined|| resultSpan.textContent.indexOf(`${operator}`)==-1){
-        resultSpan.textContent+=` ÷ `
-        operator='÷';  
-    }
-    else if(resultSpan.textContent[indexTwo+2]!== undefined){
-        let result=calculate();
-        operator='÷'
-        resultSpan.textContent=`${result} ÷ `
-    }
-    else {
-    displayValue=resultSpan.textContent;
-    let newDisplay=displayValue.replace(` ${operator} ` , ' ÷ ')
-    resultSpan.textContent=newDisplay;
-    operator='÷'
-    }
-}
-
-function calculate () {
-    if (operator== '+'){
-    displayValue=resultSpan.textContent;    
-    let newValue= displayValue.replace(/ /g,"")
-    let index= newValue.indexOf('+')
-        if(index==-1){return 0}
-        else if(newValue[index+1]=== undefined){
-            return 0}
-    let firstNum= +newValue.slice(0,index);
-    let secondNum= +newValue.slice(index+1,newValue.length);
-    return resultSpan.textContent= operate(firstNum,secondNum,operator);
-    }
-
-    else if (operator== '-'){
-    displayValue=resultSpan.textContent;    
-    let newValue= displayValue.replace(/ /g,"")
-    let index= newValue.indexOf('-')
-        if(index==-1){return 0}
-        else if(newValue[index+1]=== undefined){
-            return 0}
-            
-    let firstNum= +newValue.slice(0,index);
-    let secondNum= +newValue.slice(index+1,newValue.length);
-    return resultSpan.textContent= operate(firstNum,secondNum,operator);
-    }
-    else if (operator== '×'){
-    displayValue=resultSpan.textContent;    
-    let newValue= displayValue.replace(/ /g,"")
-    let index= newValue.indexOf('×')
-        if(index==-1){return 0}
-        else if(newValue[index+1]=== undefined){
-            return 0}
-    let firstNum= +newValue.slice(0,index);
-    let secondNum= +newValue.slice(index+1,newValue.length);
-    return resultSpan.textContent= operate(firstNum,secondNum,operator);
-    }
-    else if (operator== '÷'){
-    displayValue=resultSpan.textContent;    
-    let newValue= displayValue.replace(/ /g,"")
-    let index= newValue.indexOf('÷')
-        if(index==-1){return 0}
-        else if(newValue[index+1]=== undefined){
-            return 0}
-    let firstNum= +newValue.slice(0,index);
-    let secondNum= +newValue.slice(index+1,newValue.length);
-    if (secondNum==0) {
-        alert("You can't divide by 0!")
-        return resultSpan.textContent=''
-    }
-    return resultSpan.textContent= operate(firstNum,secondNum,operator).toFixed(2);
-        }
-}
-
+  }
+  
+  
+  const numbersButtons = document.querySelectorAll(".number")
+  const operationButtons = document.querySelectorAll(".operation")
+  const equalBtn=document.querySelector('.equal')
+  const clearBtn= document.querySelector('.clear')
+  const deleteBtn= document.querySelector('.delete')
+  const previousOperandTextElement = document.querySelector('.numbers')
+  const currentOperandTextElement = document.querySelector('.result')
+  
+  const calculator = new Calculator(previousOperandTextElement, currentOperandTextElement)
+  
+  numbersButtons.forEach(button => {
+    button.addEventListener('click', () => {
+      calculator.appendNumber(button.innerText)
+      calculator.updateDisplay()
+    })
+  })
+  
+  operationButtons.forEach(button => {
+    button.addEventListener('click', () => {
+      calculator.chooseOperation(button.innerText)
+      calculator.updateDisplay()
+    })
+  })
+  
+  equalBtn.addEventListener('click', button => {
+    calculator.compute()
+    calculator.updateDisplay()
+  })
+  
+  clearBtn.addEventListener('click', button => {
+    calculator.clear()
+    calculator.updateDisplay()
+  })
+  
+  deleteBtn.addEventListener('click', button => {
+    calculator.delete()
+    calculator.updateDisplay()
+  })

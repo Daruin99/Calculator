@@ -35,8 +35,20 @@
     padding: 10px;
     box-sizing: border-box;
     display: flex;
-    justify-content: flex-end;
+    flex-direction: column;
+    justify-content: space-between;
     align-items: flex-end;
+    word-break: break-all;
+}
+
+.display .numbers {
+    color: rgba(0, 0, 0, 0.76);
+    font-size: 1.5rem;
+}
+
+.display .result {
+    color: black;
+    font-size: 2.5rem;
 }
 
 .clear-delete {
@@ -98,19 +110,10 @@ font-weight: 500;
 padding: 20px;
 width:20%;
 box-sizing: border-box;
+cursor: pointer;
 }
 
-a.one:hover,
-a.two:hover,
-a.three:hover,
-a.four:hover,
-a.five:hover,
-a.six:hover,
-a.seven:hover,
-a.eight:hover,
-a.nine:hover,
-a.zero:hover,
-a.float:hover
+.buttons > a:hover
  {
     background-color: rgb(206, 198, 198);
 }
