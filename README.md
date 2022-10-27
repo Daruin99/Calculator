@@ -2,6 +2,7 @@
 Calculator created with HTML, CSS and JS.
 
 Things I learned:
+
 -How to use classes to organize the code.
 
 -Deeper understanding of event listeners and arrow functions.
